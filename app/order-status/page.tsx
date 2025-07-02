@@ -110,8 +110,8 @@ export default function OrderStatus() {
     <div className="min-h-screen bg-red-50">
       <header className="bg-red-600 text-white p-6 shadow-lg">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Статус заказов</h1>
-          <p className="text-lg opacity-90">Отслеживайте готовность ваших заказов</p>
+          <h1 className="text-3xl font-bold mb-2">Buyutmalar holati</h1>
+          {/* <p className="text-lg opacity-90">Отслеживайте готовность ваших заказов</p> */}
         </div>
       </header>
 
@@ -124,8 +124,8 @@ export default function OrderStatus() {
                 <div className="flex items-center gap-3">
                   <Bell className="h-8 w-8 text-green-600" />
                   <div>
-                    <CardTitle className="text-2xl text-green-800">Заказы готовы к выдаче!</CardTitle>
-                    <p className="text-green-700">{readyOrders.length} заказ(ов) ожидают получения</p>
+                    <CardTitle className="text-2xl text-green-800">Buyurtmalar tayyor</CardTitle>
+                    {/* <p className="text-green-700">{readyOrders.length} заказ(ов) ожидают получения</p> */}
                   </div>
                 </div>
               </CardHeader>
@@ -137,7 +137,7 @@ export default function OrderStatus() {
                         <div className="text-4xl font-bold text-green-600 mb-2">#{order.orderNumber}</div>
                         <p className="font-semibold text-lg mb-2">{order.customerName}</p>
                         <p className="text-sm text-gray-600 mb-3">
-                          {order.items.length} товар(ов) • {order.totalPrice}₽
+                          {order.items.length} mahsulot(lar) • {order.totalPrice}₽
                         </p>
                         <Button
                           size="sm"
@@ -158,18 +158,18 @@ export default function OrderStatus() {
         {/* All Orders */}
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Все заказы</h2>
+            <h2 className="text-2xl font-bold">Barch buyurtmalar</h2>
             <Link href="/">
-              <Button variant="outline">Новый заказ</Button>
+              <Button variant="outline">Yangi buyurtma</Button>
             </Link>
           </div>
 
           {orders.length === 0 ? (
             <Card>
               <CardContent className="p-8 text-center">
-                <p className="text-xl text-gray-600 mb-4">Заказов пока нет</p>
+                <p className="text-xl text-gray-600 mb-4">Xozircha buyurtmalar mavjud emas</p>
                 <Link href="/">
-                  <Button className="bg-red-600 hover:bg-red-700">Сделать первый заказ</Button>
+                  <Button className="bg-red-600 hover:bg-red-700">Yangi buyurtma berish</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -183,7 +183,7 @@ export default function OrderStatus() {
                     <CardHeader className="pb-3">
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle className="text-xl">Заказ #{order.orderNumber}</CardTitle>
+                          <CardTitle className="text-xl">Buyurtma #{order.orderNumber}</CardTitle>
                           <p className="text-gray-600">{order.customerName}</p>
                         </div>
                         <Badge className={getStatusColor(order.status)}>
@@ -201,13 +201,13 @@ export default function OrderStatus() {
                             <span>
                               {item.name} x{item.quantity}
                             </span>
-                            <span>{item.price * item.quantity}₽</span>
+                            <span>{item.price * item.quantity}UZS</span>
                           </div>
                         ))}
                       </div>
                       <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="font-semibold">Итого:</span>
-                        <span className="font-bold text-lg text-red-600">{order.totalPrice}₽</span>
+                        <span className="font-semibold">Umumiy hisob:</span>
+                        <span className="font-bold text-lg text-red-600">{order.totalPrice}UZS</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-2">{new Date(order.timestamp).toLocaleString("ru-RU")}</p>
                     </CardContent>

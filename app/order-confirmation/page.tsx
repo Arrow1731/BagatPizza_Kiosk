@@ -21,9 +21,9 @@ export default function OrderConfirmation() {
               </div>
             </div>
           </div>
-          <CardTitle className="text-4xl font-bold text-green-600 mb-4">Заказ принят!</CardTitle>
+          <CardTitle className="text-4xl font-bold text-green-600 mb-4">Buyurtma qabul qilindi</CardTitle>
           <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-2xl p-6 mx-4">
-            <p className="text-lg mb-2">Ваш номер заказа:</p>
+            <p className="text-lg mb-2">Buyurtma raqami:</p>
             <div className="text-6xl font-bold">{orderNumber}</div>
           </div>
         </CardHeader>
@@ -31,21 +31,21 @@ export default function OrderConfirmation() {
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
             <div className="flex items-center justify-center gap-3 mb-4">
               <Clock className="h-8 w-8 text-blue-600" />
-              <span className="text-2xl font-semibold text-blue-800">Готовится на кухне</span>
+              <span className="text-2xl font-semibold text-blue-800">Tayyorlanmoqda...</span>
             </div>
-            <p className="text-lg text-blue-700">Время приготовления: 10-15 минут</p>
+            <p className="text-lg text-blue-700">Taxminiy tayyorlanish vaqti: 10-15 daqiqa</p>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-gray-800">Что дальше?</h3>
+            <h3 className="text-2xl font-semibold text-gray-800">Keyingi qadam?</h3>
             <div className="text-left space-y-4 max-w-lg mx-auto">
               <div className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm">
                 <span className="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">
                   1
                 </span>
                 <div>
-                  <p className="font-semibold">Заказ передан на кухню</p>
-                  <p className="text-gray-600 text-sm">Повара уже готовят ваши блюда</p>
+                  <p className="font-semibold">Buyurtma Oshxonaga jo'natildi</p>
+                  {/* <p className="text-gray-600 text-sm">Повара уже готовят ваши блюда</p> */}
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm">
@@ -53,8 +53,8 @@ export default function OrderConfirmation() {
                   2
                 </span>
                 <div>
-                  <p className="font-semibold">Следите за экраном</p>
-                  <p className="text-gray-600 text-sm">Ваш номер появится на большом мониторе</p>
+                  <p className="font-semibold">Manitor orqali buyutmangizni kuzatib boring</p>
+                  <p className="text-gray-600 text-sm">Buyurtma tayyor bo'lgach Manitor orqali e'lon qilinadi</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm">
@@ -62,8 +62,8 @@ export default function OrderConfirmation() {
                   3
                 </span>
                 <div>
-                  <p className="font-semibold">Заберите заказ</p>
-                  <p className="text-gray-600 text-sm">Подойдите к стойке выдачи с номером</p>
+                  <p className="font-semibold">Buyutmangizni oling</p>
+                  {/* <p className="text-gray-600 text-sm">Подойдите к стойке выдачи с номером</p> */}
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@ export default function OrderConfirmation() {
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-4 shadow-lg"
               >
                 <Receipt className="mr-2 h-5 w-5" />
-                Посмотреть все заказы
+                Barcha buyurtmalarni ko'rish
               </Button>
             </Link>
             <div>
@@ -86,7 +86,7 @@ export default function OrderConfirmation() {
                   size="lg"
                   className="text-lg px-8 py-4 border-red-200 text-red-600 hover:bg-red-50 bg-transparent"
                 >
-                  Сделать новый заказ
+                  Yangi buyurtma berish
                 </Button>
               </Link>
             </div>
@@ -94,10 +94,10 @@ export default function OrderConfirmation() {
 
           <div className="text-sm text-gray-500 pt-6 border-t bg-gray-50 rounded-lg p-4">
             <p className="font-semibold mb-2">
-              Запомните номер заказа: <span className="text-red-600 text-lg">#{orderNumber}</span>
+              Buyurtma raqamini eslab qoling: <span className="text-red-600 text-lg">#{orderNumber}</span>
             </p>
-            <p>При возникновении вопросов обратитесь к персоналу</p>
-            <p className="mt-2 text-xs">Чек будет распечатан автоматически</p>
+            {/* <p>При возникновении вопросов обратитесь к персоналу</p> */}
+            <p className="mt-2 text-xs">Check avtomatik tarzda beriladi</p>
           </div>
         </CardContent>
       </Card>

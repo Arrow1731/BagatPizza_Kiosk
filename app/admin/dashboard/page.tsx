@@ -9,8 +9,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { db, storage } from "@/lib/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db } from "@/lib/firebase";
 
 interface Product {
   id: string;
@@ -24,9 +23,17 @@ interface Product {
   popular?: boolean;
 }
 
-const categories = ["Бургеры", "Лаваши", "Пицца", "Салаты", "Закуски", "Гарниры", "Напитки"];
+const categories = [
+  "Burgers",
+  "Lavashlar",
+  "Pitsa",
+  "Salatlar",
+  "Gazaklar",
+  "Garnirlar",
+  "Ichimliklar",
+];
 
-export default function AdminDashboard() {
+export default function AdminPanel() {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState({
     name: "",
@@ -35,11 +42,10 @@ export default function AdminDashboard() {
     image: "",
     category: categories[0],
     rating: "4.5",
-    cookTime: "5 мин",
+    cookTime: "5 daqiqa",
     popular: false,
   });
   const [editId, setEditId] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
 
   const productsRef = collection(db, "products");
 
@@ -59,48 +65,25 @@ export default function AdminDashboard() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const target = e.target;
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
-    if (target instanceof HTMLInputElement && target.type === "checkbox") {
-      setForm((prev) => ({
-        ...prev,
-        [target.name]: target.checked,
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        [target.name]: target.value,
-      }));
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setForm((prev) => ({ ...prev, image: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-    const imageRef = ref(storage, `products/${Date.now()}-${file.name}`);
-    await uploadBytes(imageRef, file);
-    const url = await getDownloadURL(imageRef);
-    setForm((prev) => ({ ...prev, image: url }));
-    setUploading(false);
-  };
-
-  const clearForm = () =>
-    setForm({
-      name: "",
-      description: "",
-      price: "",
-      image: "",
-      category: categories[0],
-      rating: "4.5",
-      cookTime: "5 мин",
-      popular: false,
-    });
-
   const handleAdd = async () => {
-    if (!form.name || !form.price || !form.image) return alert("Barcha maydonlar to‘ldirilishi kerak!");
-
     const newProduct = {
       name: form.name,
       description: form.description,
@@ -113,7 +96,7 @@ export default function AdminDashboard() {
     };
 
     await addDoc(productsRef, newProduct);
-    clearForm();
+    resetForm();
     loadProducts();
   };
 
@@ -126,8 +109,7 @@ export default function AdminDashboard() {
       rating: parseFloat(form.rating),
     });
 
-    setEditId(null);
-    clearForm();
+    resetForm();
     loadProducts();
   };
 
@@ -140,7 +122,7 @@ export default function AdminDashboard() {
       image: product.image || "",
       category: product.category,
       rating: product.rating?.toString() || "4.5",
-      cookTime: product.cookTime || "",
+      cookTime: product.cookTime || "5 daqiqa",
       popular: product.popular || false,
     });
   };
@@ -150,11 +132,26 @@ export default function AdminDashboard() {
     loadProducts();
   };
 
+  const resetForm = () => {
+    setEditId(null);
+    setForm({
+      name: "",
+      description: "",
+      price: "",
+      image: "",
+      category: categories[0],
+      rating: "4.5",
+      cookTime: "5 daqiqa",
+      popular: false,
+    });
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h2 className="text-2xl font-bold">🛠 Mahsulotlar boshqaruvi</h2>
+      <h1 className="text-3xl font-bold text-center mb-6">🛠 Admin panel - Mahsulotlar</h1>
 
-      <div className="grid gap-4 bg-gray-100 p-4 rounded-xl">
+      {/* Form */}
+      <div className="grid gap-4 bg-gray-100 p-4 rounded-xl shadow">
         <input
           type="text"
           name="name"
@@ -178,9 +175,16 @@ export default function AdminDashboard() {
           onChange={handleChange}
           className="p-2 border rounded"
         />
-        <select name="category" value={form.category} onChange={handleChange} className="p-2 border rounded">
+        <select
+          name="category"
+          value={form.category}
+          onChange={handleChange}
+          className="p-2 border rounded"
+        >
           {categories.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
           ))}
         </select>
         <input
@@ -195,7 +199,7 @@ export default function AdminDashboard() {
           type="text"
           name="rating"
           value={form.rating}
-          placeholder="Reyting (4.5)"
+          placeholder="Reyting"
           onChange={handleChange}
           className="p-2 border rounded"
         />
@@ -209,39 +213,63 @@ export default function AdminDashboard() {
           🔥 Mashhur taom
         </label>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
-        {uploading && <p>Yuklanmoqda...</p>}
-        {form.image && <img src={form.image} alt="Preview" className="w-32 h-32 object-cover rounded border" />}
-        <div className="flex gap-3">
+        {form.image && (
+          <img
+            src={form.image}
+            alt="Yuklangan rasm"
+            className="w-32 h-32 object-cover border rounded"
+          />
+        )}
+
+        <div className="flex gap-2">
           {editId ? (
-            <button onClick={handleUpdate} className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
+            <button
+              onClick={handleUpdate}
+              className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+            >
               Yangilash
             </button>
           ) : (
-            <button onClick={handleAdd} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            <button
+              onClick={handleAdd}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            >
               Qo‘shish
+            </button>
+          )}
+          {editId && (
+            <button
+              onClick={resetForm}
+              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+            >
+              Bekor qilish
             </button>
           )}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <h3 className="text-xl font-semibold">📦 Mahsulotlar ro‘yxati</h3>
+      {/* Mahsulot ro'yxati */}
+      <div className="space-y-3">
+        <h2 className="text-2xl font-semibold">📦 Yangi mahsulotlar</h2>
         {products.map((item) => (
-          <div key={item.id} className="bg-white p-4 rounded shadow flex justify-between items-center">
+          <div
+            key={item.id}
+            className="bg-white p-4 rounded shadow flex justify-between items-center"
+          >
             <div>
-              <p className="font-bold">{item.name} ({item.category})</p>
-              <p className="text-sm text-gray-500">{item.price.toLocaleString()} so‘m</p>
+              <p className="font-bold">{item.name}</p>
+              <p className="text-sm text-gray-500">{item.category} — {item.price.toLocaleString()} so‘m</p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => handleEdit(item)}
-                className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
               >
                 Tahrirlash
               </button>
               <button
                 onClick={() => handleDelete(item.id)}
-                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
               >
                 O‘chirish
               </button>

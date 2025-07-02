@@ -159,7 +159,7 @@ export default function KioskMenu() {
                 <ShoppingCart className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
                 <span className="hidden sm:inline">Savat </span>({totalItems})
                 <Badge className="ml-2 sm:ml-3 bg-red-600 text-white text-base sm:text-lg px-2 sm:px-3 py-1">
-                  {totalPrice}₽
+                  {totalPrice} UZS
                 </Badge>
               </Button>
             </Link>
@@ -220,7 +220,7 @@ export default function KioskMenu() {
                     <CardTitle className="text-lg sm:text-xl">{item.name}</CardTitle>
                     <CardDescription className="text-sm sm:text-base">{item.description}</CardDescription>
                     <div className="flex justify-between items-center">
-                      <div className="text-xl sm:text-2xl font-bold text-red-600">{item.price}₽</div>
+                      <div className="text-xl sm:text-2xl font-bold text-red-600">{item.price} UZS</div>
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 text-yellow-500 fill-current" />
                         <span className="text-sm font-medium">{item.rating}</span>
@@ -296,7 +296,7 @@ export default function KioskMenu() {
                   <CardTitle className="text-lg sm:text-xl">{item.name}</CardTitle>
                   <CardDescription className="text-sm sm:text-base line-clamp-2">{item.description}</CardDescription>
                   <div className="flex justify-between items-center">
-                    <div className="text-xl sm:text-2xl font-bold text-red-600">{item.price}₽</div>
+                    <div className="text-xl sm:text-2xl font-bold text-red-600">{item.price} UZS</div>
                     <div className="flex items-center gap-1">
                       <Star className="h-4 w-4 text-yellow-500 fill-current" />
                       <span className="text-sm font-medium">{item.rating}</span>

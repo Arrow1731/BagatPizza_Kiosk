@@ -81,7 +81,7 @@ export default function CartPage() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 flex items-center justify-center">
         <Card className="p-8 text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-red-600" />
-          <h2 className="text-xl font-semibold">Загрузка корзины...</h2>
+          <h2 className="text-xl font-semibold">Savat yuklanmoqda...</h2>
         </Card>
       </div>
     )
@@ -92,9 +92,9 @@ export default function CartPage() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 flex items-center justify-center">
         <Card className="p-8 text-center max-w-md">
           <div className="text-red-500 text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold mb-2">Ошибка загрузки</h2>
+          <h2 className="text-xl font-semibold mb-2">Yuklanishda xatolik</h2>
           <p className="text-gray-600 mb-4">{cartError}</p>
-          <Button onClick={() => window.location.reload()}>Попробовать снова</Button>
+          <Button onClick={() => window.location.reload()}>Qayta urunib ko'rish</Button>
         </Card>
       </div>
     )
@@ -106,12 +106,12 @@ export default function CartPage() {
         <Card className="w-full max-w-md text-center shadow-2xl">
           <CardContent className="p-8">
             <div className="text-6xl mb-4">🛒</div>
-            <h2 className="text-2xl font-bold mb-4">Корзина пуста</h2>
-            <p className="text-gray-600 mb-6">Добавьте товары из меню</p>
+            <h2 className="text-2xl font-bold mb-4">Savat bosh</h2>
+            <p className="text-gray-600 mb-6">Menyudan mahsulot tanlash</p>
             <Link href="/">
               <Button className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-lg px-8 py-3">
                 <ArrowLeft className="mr-2 h-5 w-5" />
-                Вернуться к меню
+                Menyuga qaytish
               </Button>
             </Link>
           </CardContent>
@@ -131,9 +131,9 @@ export default function CartPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">Ваш заказ</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold">Sizning buyurtmangiz</h1>
               <p className="text-lg opacity-90">
-                {totalItems} товаров на сумму {totalPrice}₽
+                {totalItems} mahsulot narxi {totalPrice} UZS
               </p>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function CartPage() {
               <div className="flex items-center gap-2 text-red-600">
                 <span className="text-2xl">⚠️</span>
                 <div>
-                  <h3 className="font-semibold">Ошибка при оформлении заказа</h3>
+                  <h3 className="font-semibold">Buyurtma berishda xatolik</h3>
                   <p className="text-sm">{orderError || ordersError}</p>
                 </div>
               </div>
@@ -159,7 +159,7 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            <h2 className="text-2xl font-bold mb-6">Товары в корзине</h2>
+            <h2 className="text-2xl font-bold mb-6">Savatdagi mahsulotlar</h2>
             {cart.map((item) => (
               <Card key={item.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="p-4 sm:p-6">
@@ -172,7 +172,7 @@ export default function CartPage() {
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg sm:text-xl">{item.name}</h3>
                       <p className="text-gray-600 text-sm sm:text-base line-clamp-2">{item.description}</p>
-                      <p className="text-red-600 font-bold text-xl sm:text-2xl mt-2">{item.price}₽</p>
+                      <p className="text-red-600 font-bold text-xl sm:text-2xl mt-2">{item.price} UZS</p>
                     </div>
                     <div className="flex flex-col items-end gap-3">
                       <Button
@@ -214,7 +214,7 @@ export default function CartPage() {
             {/* Payment Method */}
             <Card className="shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl">Способ оплаты</CardTitle>
+                <CardTitle className="text-xl">To'lov turi</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -229,7 +229,7 @@ export default function CartPage() {
                     onClick={() => setPaymentMethod("card")}
                   >
                     <CreditCard className="h-6 w-6" />
-                    <span className="text-sm">Картой</span>
+                    <span className="text-sm">Plastik karta orqali</span>
                   </Button>
                   <Button
                     variant={paymentMethod === "cash" ? "default" : "outline"}
@@ -242,7 +242,7 @@ export default function CartPage() {
                     onClick={() => setPaymentMethod("cash")}
                   >
                     <Banknote className="h-6 w-6" />
-                    <span className="text-sm">Наличными</span>
+                    <span className="text-sm">Naxt pul orqali</span>
                   </Button>
                 </div>
               </CardContent>
@@ -251,22 +251,22 @@ export default function CartPage() {
             {/* Order Total */}
             <Card className="shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl">Итого к оплате</CardTitle>
+                <CardTitle className="text-xl">Umumiy hisob</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex justify-between text-lg">
-                    <span>Товары ({totalItems} шт.)</span>
-                    <span>{totalPrice}₽</span>
+                    <span>Mahsulot ({totalItems} dona.)</span>
+                    <span>{totalPrice} UZS</span>
                   </div>
                   <div className="flex justify-between text-lg">
-                    <span>НДС (включен)</span>
-                    <span className="text-gray-600">0₽</span>
+                    {/* <span>НДС (включен)</span> */}
+                    {/* <span className="text-gray-600">0₽</span> */}
                   </div>
                   <hr className="my-3" />
                   <div className="flex justify-between text-2xl font-bold">
-                    <span>Итого</span>
-                    <span className="text-red-600">{totalPrice}₽</span>
+                    <span>Umumiy</span>
+                    <span className="text-red-600">{totalPrice} UZS</span>
                   </div>
                 </div>
                 <Button
@@ -278,16 +278,16 @@ export default function CartPage() {
                   {isOrdering ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Оформляем заказ...
+                      Buyurtma qilish...
                     </>
                   ) : paymentMethod === "card" ? (
-                    "Оплатить картой"
+                    "Plastik karta orqali to'lash"
                   ) : (
-                    "Оплатить наличными"
+                    "Naxt pul orqali to'lash"
                   )}
                 </Button>
                 <p className="text-sm text-gray-600 text-center">
-                  {paymentMethod === "card" ? "Приложите карту к терминалу" : "Подготовьте наличные"}
+                  {/* {paymentMethod === "card" ? "Приложите карту к терминалу" : "Подготовьте наличные"} */}
                 </p>
               </CardContent>
             </Card>
