@@ -105,7 +105,7 @@ const menuItems: MenuItem[] = [
   },
 ]
 
-const categories = ["Все", "Бургеры", "Лаваши", "Пицца", "Салаты", "Закуски", "Гарниры", "Напитки"]
+const categories = ["Hammasi", "Gamburgerlar", "Lavashi", "Pitsa", "Salatlar", "E'lonlar", "Gonorlar", "Ichimliklar"]
 
 export default function KioskMenu() {
   const [selectedCategory, setSelectedCategory] = useState("Все")
@@ -119,8 +119,8 @@ export default function KioskMenu() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 flex items-center justify-center">
         <Card className="p-8 text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-red-600" />
-          <h2 className="text-xl font-semibold">Загрузка меню...</h2>
-          <p className="text-gray-600">Подключение к Firebase</p>
+          <h2 className="text-xl font-semibold">Menyu yuklanmoqda...</h2>
+          <p className="text-gray-600">Firebase-ga ulanish</p>
         </Card>
       </div>
     )
@@ -131,9 +131,9 @@ export default function KioskMenu() {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 flex items-center justify-center">
         <Card className="p-8 text-center max-w-md">
           <div className="text-red-500 text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold mb-2">Ошибка подключения</h2>
+          <h2 className="text-xl font-semibold mb-2">Ulanish xatosi</h2>
           <p className="text-gray-600 mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()}>Попробовать снова</Button>
+          <Button onClick={() => window.location.reload()}>Qayta urinib ko'ring</Button>
         </Card>
       </div>
     )
@@ -147,9 +147,9 @@ export default function KioskMenu() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-center sm:text-left">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-300 to-orange-200 bg-clip-text text-transparent">
-                БЫСТРО ВКУСНО
+              Bog'ot Pizza
               </h1>
-              <p className="text-lg sm:text-xl opacity-90 mt-1">Киоск самообслуживания</p>
+              <p className="text-lg sm:text-xl opacity-90 mt-1">O'z-o'ziga xizmat ko'rsatish kioskasi</p>
             </div>
             <Link href="/cart">
               <Button
@@ -157,7 +157,7 @@ export default function KioskMenu() {
                 className="bg-white text-red-600 hover:bg-gray-100 text-lg sm:text-xl px-6 sm:px-8 py-3 sm:py-4 h-auto shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 <ShoppingCart className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
-                <span className="hidden sm:inline">Корзина </span>({totalItems})
+                <span className="hidden sm:inline">Savat </span>({totalItems})
                 <Badge className="ml-2 sm:ml-3 bg-red-600 text-white text-base sm:text-lg px-2 sm:px-3 py-1">
                   {totalPrice}₽
                 </Badge>
@@ -191,7 +191,7 @@ export default function KioskMenu() {
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 flex items-center gap-2">
             <Star className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-500 fill-current" />
-            Популярные блюда
+            Ommabop taomlar
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {menuItems
@@ -258,7 +258,7 @@ export default function KioskMenu() {
                           onClick={() => addToCart(item)}
                         >
                           <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                          Добавить
+                          Qo'shish
                         </Button>
                       )}
                     </div>
@@ -271,7 +271,7 @@ export default function KioskMenu() {
         {/* All Menu Items */}
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
-            {selectedCategory === "Все" ? "Все блюда" : selectedCategory}
+            {selectedCategory === "Все" ? "Barcha taomlar" : selectedCategory}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filteredItems.map((item) => (
@@ -284,7 +284,7 @@ export default function KioskMenu() {
                   {item.popular && (
                     <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                       <Star className="h-3 w-3 mr-1 fill-current" />
-                      Хит
+                      Xit
                     </Badge>
                   )}
                   <Badge className="absolute top-2 right-2 bg-green-600 text-white">
@@ -334,7 +334,7 @@ export default function KioskMenu() {
                         onClick={() => addToCart(item)}
                       >
                         <Plus className="mr-1 sm:mr-2 h-3 w-3 sm:h-5 sm:w-5" />
-                        Добавить
+                        Qo'shish
                       </Button>
                     )}
                   </div>
@@ -368,12 +368,12 @@ export default function KioskMenu() {
       <div className="fixed bottom-4 left-4 space-y-2 hidden lg:block">
         <Link href="/kitchen">
           <Button variant="outline" size="sm" className="bg-white/90 backdrop-blur-sm">
-            👨‍🍳 Кухня
+            👨‍🍳 Oshxona
           </Button>
         </Link>
         <Link href="/display">
           <Button variant="outline" size="sm" className="bg-white/90 backdrop-blur-sm">
-            📺 Монитор зала
+            📺 Zaldagi monitor
           </Button>
         </Link>
       </div>

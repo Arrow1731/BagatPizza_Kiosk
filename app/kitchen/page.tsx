@@ -39,7 +39,7 @@ export default function KitchenDashboard() {
               <div className="text-center sm:text-left">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold flex items-center gap-3">
                   <ChefHat className="h-8 w-8 sm:h-10 sm:w-10" />
-                  Кухня - Панель управления
+                  Oshxona - Boshqaruv paneli
                 </h1>
                 <p className="text-base sm:text-lg opacity-90 mt-1">Загрузка...</p>
               </div>
@@ -58,8 +58,8 @@ export default function KitchenDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <Card className="p-8 text-center">
           <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-600" />
-          <h2 className="text-xl font-semibold">Загрузка заказов...</h2>
-          <p className="text-gray-600">Подключение к Firebase</p>
+          <h2 className="text-xl font-semibold">Buyurtmalar yuklanmoqda...</h2>
+          <p className="text-gray-600">Firebase-ga ulanish</p>
         </Card>
       </div>
     )
@@ -70,9 +70,9 @@ export default function KitchenDashboard() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <Card className="p-8 text-center max-w-md">
           <div className="text-red-500 text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold mb-2">Ошибка подключения</h2>
+          <h2 className="text-xl font-semibold mb-2">Ulanish xatosi</h2>
           <p className="text-gray-600 mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()}>Попробовать снова</Button>
+          <Button onClick={() => window.location.reload()}>Qayta urinib ko'ring</Button>
         </Card>
       </div>
     )
@@ -87,21 +87,21 @@ export default function KitchenDashboard() {
             <div className="text-center sm:text-left">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold flex items-center gap-3">
                 <ChefHat className="h-8 w-8 sm:h-10 sm:w-10" />
-                Кухня - Панель управления
+                Oshxona - Boshqaruv paneli
               </h1>
               <p className="text-base sm:text-lg opacity-90 mt-1">
-                {currentTime?.toLocaleTimeString("ru-RU")} • {preparingOrders.length} заказов в работе
+                {currentTime?.toLocaleTimeString("ru-RU")} • {preparingOrders.length} buyurtmalar bajarilmoqda
               </p>
             </div>
             <div className="flex gap-2 sm:gap-4">
               <Link href="/">
                 <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                  📱 Меню
+                  📱 Menyu
                 </Button>
               </Link>
               <Link href="/display">
                 <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                  📺 Монитор
+                  📺 Monitor
                 </Button>
               </Link>
             </div>
@@ -115,19 +115,19 @@ export default function KitchenDashboard() {
           <Card className="bg-gradient-to-br from-orange-500 to-red-500 text-white border-0">
             <CardContent className="p-4 text-center">
               <div className="text-2xl sm:text-3xl font-bold">{preparingOrders.length}</div>
-              <div className="text-sm opacity-90">В работе</div>
+              <div className="text-sm opacity-90">Jarayonda</div>
             </CardContent>
           </Card>
           <Card className="bg-gradient-to-br from-green-500 to-emerald-500 text-white border-0">
             <CardContent className="p-4 text-center">
               <div className="text-2xl sm:text-3xl font-bold">{readyOrders.length}</div>
-              <div className="text-sm opacity-90">Готово</div>
+              <div className="text-sm opacity-90">Tayyor</div>
             </CardContent>
           </Card>
           <Card className="bg-gradient-to-br from-blue-500 to-indigo-500 text-white border-0">
             <CardContent className="p-4 text-center">
               <div className="text-2xl sm:text-3xl font-bold">{preparingOrders.length + readyOrders.length}</div>
-              <div className="text-sm opacity-90">Всего</div>
+              <div className="text-sm opacity-90">Jami</div>
             </CardContent>
           </Card>
         </div>
@@ -136,15 +136,15 @@ export default function KitchenDashboard() {
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
             <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
-            Заказы в работе ({preparingOrders.length})
+            Buyurtmalar bajarilmoqda ({preparingOrders.length})
           </h2>
 
           {preparingOrders.length === 0 ? (
             <Card className="bg-gray-50">
               <CardContent className="p-8 text-center">
                 <ChefHat className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-xl text-gray-600">Новых заказов нет</p>
-                <p className="text-gray-500">Ожидаем новые заказы...</p>
+                <p className="text-xl text-gray-600">Yangi buyurtmalar yo'q</p>
+                <p className="text-gray-500">Yangi buyurtmalarni kutamiz...</p>
               </CardContent>
             </Card>
           ) : (
@@ -159,9 +159,9 @@ export default function KitchenDashboard() {
                     <CardHeader className="pb-3">
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle className="text-xl sm:text-2xl font-bold">Заказ #{order.orderNumber}</CardTitle>
+                          <CardTitle className="text-xl sm:text-2xl font-bold">Buyurtma #{order.orderNumber}</CardTitle>
                           <Badge className="mt-2 bg-blue-500 text-white">
-                            {order.paymentMethod === "card" ? "💳 Картой" : "💵 Наличными"}
+                            {order.paymentMethod === "card" ? "💳 Karta orqali" : "💵 Naqd pulda"}
                           </Badge>
                         </div>
                         <div className="text-right">
@@ -183,14 +183,14 @@ export default function KitchenDashboard() {
                         ))}
                       </div>
                       <div className="flex justify-between items-center pt-3 border-t">
-                        <span className="font-bold text-lg">Итого: {order.totalPrice}₽</span>
+                        <span className="font-bold text-lg">Jami:{order.totalPrice}₽</span>
                         <Button
                           size="lg"
                           className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                           onClick={() => order.id && markAsReady(order.id)}
                         >
                           <CheckCircle className="mr-2 h-5 w-5" />
-                          Готово!
+                          Tayyor!
                         </Button>
                       </div>
                     </CardContent>
@@ -205,7 +205,7 @@ export default function KitchenDashboard() {
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
               <Bell className="h-6 w-6 sm:h-8 sm:w-8 text-green-500 animate-pulse" />
-              Готовые заказы ({readyOrders.length})
+              Tugallangan buyurtmalar ({readyOrders.length})
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {readyOrders.map((order) => (
@@ -213,11 +213,11 @@ export default function KitchenDashboard() {
                   <CardContent className="p-4 text-center">
                     <div className="text-3xl font-bold text-green-600 mb-2">#{order.orderNumber}</div>
                     <p className="text-sm text-gray-600 mb-2">
-                      {order.items.length} товар(ов) • {order.totalPrice}₽
+                      {order.items.length} mahsulot(lar) • {order.totalPrice}₽
                     </p>
                     <Badge className="bg-green-600 text-white">
                       <CheckCircle className="h-3 w-3 mr-1" />
-                      Готов к выдаче
+                      Olib ketishga tayyor
                     </Badge>
                   </CardContent>
                 </Card>
