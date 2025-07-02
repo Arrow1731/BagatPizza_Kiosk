@@ -37,7 +37,7 @@ export default function DisplayMonitor() {
         <Card className="bg-white/10 backdrop-blur-sm border-white/20">
           <CardContent className="p-8 text-center">
             <Loader2 className="h-16 w-16 animate-spin mx-auto mb-4 text-white" />
-            <h2 className="text-2xl font-semibold text-white">Загрузка заказов...</h2>
+            <h2 className="text-2xl font-semibold text-white">Buyurtmalar yuklanmoqda...</h2>
           </CardContent>
         </Card>
       </div>
@@ -50,7 +50,7 @@ export default function DisplayMonitor() {
         <Card className="bg-white/10 backdrop-blur-sm border-white/20">
           <CardContent className="p-8 text-center">
             <div className="text-red-400 text-4xl mb-4">⚠️</div>
-            <h2 className="text-xl font-semibold mb-2 text-white">Ошибка подключения</h2>
+            <h2 className="text-xl font-semibold mb-2 text-white">Ulanish xatosi</h2>
             <p className="text-gray-300">{error}</p>
           </CardContent>
         </Card>
@@ -71,9 +71,9 @@ export default function DisplayMonitor() {
       <header className="relative z-10 text-center py-8 sm:py-12">
         <div className="max-w-6xl mx-auto px-4">
           <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4">
-            БЫСТРО ВКУСНО
+            Bog'ot Pizza
           </h1>
-          <p className="text-xl sm:text-2xl lg:text-3xl opacity-90 mb-2">Следите за своим заказом</p>
+          <p className="text-xl sm:text-2xl lg:text-3xl opacity-90 mb-2">Buyurtmangizni kuzatib boring</p>
           {currentTime && (
             <div className="text-lg sm:text-xl opacity-75">
               {currentTime.toLocaleString("ru-RU", {
@@ -97,11 +97,11 @@ export default function DisplayMonitor() {
             <div className="text-center mb-8">
               <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-green-400 mb-4 animate-pulse flex items-center justify-center gap-4">
                 <Sparkles className="h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16" />
-                ЗАКАЗЫ ГОТОВЫ!
+                Buyurtmalar tayyor!
                 <Sparkles className="h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16" />
               </h2>
               <p className="text-xl sm:text-2xl lg:text-3xl opacity-90">
-                {readyOrders.length} заказ(ов) ожидают получения
+                {readyOrders.length} qabul qilishni kutayotgan buyurtma(lar).
               </p>
             </div>
 
@@ -109,8 +109,8 @@ export default function DisplayMonitor() {
               {readyOrders.map((order, index) => (
                 <Card
                   key={order.id}
-                  className="bg-gradient-to-br from-green-500 to-emerald-600 border-0 shadow-2xl transform hover:scale-105 transition-all duration-500 animate-bounce"
-                  style={{ animationDelay: `${index * 0.2}s` }}
+                  className="bg-gradient-to-br from-green-500 to-emerald-600 border-0 shadow-2xl transform hover:scale-105"
+                  // style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <CardContent className="p-6 sm:p-8 text-center text-white">
                     <div className="mb-4">
@@ -118,7 +118,7 @@ export default function DisplayMonitor() {
                     </div>
                     <div className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-4">#{order.orderNumber}</div>
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold bg-white text-green-600 rounded-full py-2 px-4 inline-block">
-                      ВАШ ЗАКАЗ ГОТОВ!
+                    Buyurtmangiz tayyor!
                     </div>
                   </CardContent>
                 </Card>
@@ -127,7 +127,7 @@ export default function DisplayMonitor() {
           </div>
         ) : (
           <div className="text-center mb-12">
-            <div className="text-2xl sm:text-3xl lg:text-4xl opacity-75 mb-8">Готовых заказов пока нет</div>
+            <div className="text-2xl sm:text-3xl lg:text-4xl opacity-75 mb-8">Hali tugallangan buyurtmalar yo'q</div>
           </div>
         )}
 
@@ -136,7 +136,7 @@ export default function DisplayMonitor() {
           <div className="text-center mb-8">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-yellow-400 mb-4 flex items-center justify-center gap-3">
               <Clock className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 animate-spin" />
-              Заказы в приготовлении
+              Buyurtmalar tayyorlanmoqda
             </h3>
             <p className="text-lg sm:text-xl lg:text-2xl opacity-75">{preparingOrders.length} заказ(ов) готовится</p>
           </div>
@@ -151,7 +151,7 @@ export default function DisplayMonitor() {
                       <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">#{order.orderNumber}</div>
                       <Badge className="mt-2 bg-white text-orange-600 text-xs sm:text-sm">
                         <Clock className="h-3 w-3 mr-1" />
-                        Готовится
+                        Tayyorgarlikda
                       </Badge>
                     </CardContent>
                   </Card>
@@ -159,15 +159,15 @@ export default function DisplayMonitor() {
             </div>
           ) : (
             <div className="text-center">
-              <div className="text-xl sm:text-2xl opacity-60">Заказов в приготовлении нет</div>
+              <div className="text-xl sm:text-2xl opacity-60">Tayyorgarlik bosqichida hech qanday buyurtma yo'q.</div>
             </div>
           )}
         </div>
 
         {/* Footer */}
         <footer className="text-center py-8 opacity-75">
-          <p className="text-lg sm:text-xl">Спасибо, что выбрали нас! • Время ожидания: 10-15 минут</p>
-          <p className="text-base sm:text-lg mt-2">При возникновении вопросов обратитесь к персоналу</p>
+          <p className="text-lg sm:text-xl">Bizni tanlaganingiz uchun tashakkur! • Kutish vaqti: 10-15 daqiqa</p>
+          <p className="text-base sm:text-lg mt-2">Agar sizda biron bir savol bo'lsa, iltimos, xodimlarga murojaat qiling.</p>
         </footer>
       </div>
     </div>
