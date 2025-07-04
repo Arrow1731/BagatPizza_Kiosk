@@ -25,9 +25,9 @@ export default function AddProduct() {
 
     setLoading(true);
     try {
-      const storageRef = ref(storage, `products/${Date.now()}-${imageFile.name}`);
-      await uploadBytes(storageRef, imageFile);
-      const imageUrl = await getDownloadURL(storageRef);
+      const imageRef = ref(storage, `products/${Date.now()}-${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      const imageUrl = await getDownloadURL(imageRef);
 
       await addDoc(collection(db, "products"), {
         title,
@@ -37,11 +37,11 @@ export default function AddProduct() {
         createdAt: serverTimestamp(),
       });
 
-      alert("Mahsulot qo‘shildi!");
+      alert("Mahsulot muvaffaqiyatli qo‘shildi!");
       router.push("/admin/dashboard");
-    } catch (error) {
-      console.error("Xatolik:", error);
-      alert("Xatolik yuz berdi. Qayta urinib ko‘ring.");
+    } catch (err) {
+      console.error("Xatolik:", err);
+      alert("Mahsulot qo‘shishda xatolik yuz berdi.");
     } finally {
       setLoading(false);
     }
