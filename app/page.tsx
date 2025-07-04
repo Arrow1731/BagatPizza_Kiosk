@@ -105,7 +105,7 @@ const menuItems: MenuItem[] = [
   },
 ]
 
-const categories = ["Hammasi", "Gamburgerlar", "Lavashi", "Pitsa", "Salatlar", "E'lonlar", "Gonorlar", "Ichimliklar"]
+const categories = ["Hammasi",]
 
 export default function KioskMenu() {
   const [selectedCategory, setSelectedCategory] = useState("Все")
