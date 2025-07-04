@@ -1,286 +1,337 @@
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { db } from "../../../lib/firebase";
+// import { collection, onSnapshot } from "firebase/firestore";
+// import {
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   ResponsiveContainer,
+// } from "recharts";
+// import { Card, CardContent } from "@/components/ui/card";
+
+// export default function AdminDashboard() {
+//   const [orders, setOrders] = useState([]);
+
+//   // Firestoredan buyurtmalarni olish
+//   useEffect(() => {
+//     const unsub = onSnapshot(collection(db, "orders"), (snapshot) => {
+//       const data = snapshot.docs.map((doc) => {
+//         const d = doc.data();
+//         return {
+//           ...d,
+//           timestamp: d.timestamp?.toDate
+//             ? d.timestamp.toDate()
+//             : new Date(d.timestamp),
+//         };
+//       });
+//       setOrders(data);
+//     });
+
+//     return () => unsub();
+//   }, []);
+
+//   const now = new Date();
+
+//   // Sana tekshiruv funksiyalari
+//   const isToday = (date: Date) =>
+//     date.getDate() === now.getDate() &&
+//     date.getMonth() === now.getMonth() &&
+//     date.getFullYear() === now.getFullYear();
+
+//   const isThisMonth = (date: Date) =>
+//     date.getMonth() === now.getMonth() &&
+//     date.getFullYear() === now.getFullYear();
+
+//   const isThisYear = (date: Date) => date.getFullYear() === now.getFullYear();
+
+//   // Filterlar
+//   const todayOrders = orders.filter((o) => isToday(o.timestamp));
+//   const monthOrders = orders.filter((o) => isThisMonth(o.timestamp));
+//   const yearOrders = orders.filter((o) => isThisYear(o.timestamp));
+
+//   // Daromad hisoblash
+//   const calcRevenue = (list: any[]) =>
+//     list.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
+
+//   // Diagramma uchun ma’lumotlar
+//   const data = [
+//     {
+//       period: "Bugun",
+//       orders: todayOrders.length,
+//       revenue: calcRevenue(todayOrders),
+//     },
+//     {
+//       period: "Shu oy",
+//       orders: monthOrders.length,
+//       revenue: calcRevenue(monthOrders),
+//     },
+//     {
+//       period: "Shu yil",
+//       orders: yearOrders.length,
+//       revenue: calcRevenue(yearOrders),
+//     },
+//   ];
+
+//   return (
+//     <div className="p-6 space-y-8">
+//       <h1 className="text-3xl font-bold text-gray-800">Admin Paneli</h1>
+
+//       {/* Statistika kartalari */}
+//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//         {data.map((item) => (
+//           <Card key={item.period} className="shadow-md">
+//             <CardContent className="p-4">
+//               <h2 className="text-xl font-semibold text-gray-700">
+//                 {item.period}
+//               </h2>
+//               <p className="text-sm text-gray-500">
+//                 Buyurtmalar soni: {item.orders}
+//               </p>
+//               <p className="text-sm text-gray-500">
+//                 Umumiy daromad: {item.revenue.toLocaleString()} so‘m
+//               </p>
+//             </CardContent>
+//           </Card>
+//         ))}
+//       </div>
+
+//       {/* Diagramma */}
+//       <div className="bg-white p-4 rounded-lg shadow-md">
+//         <h2 className="text-xl font-bold mb-4 text-gray-800">
+//           Buyurtma va daromad statistikasi
+//         </h2>
+//         <ResponsiveContainer width="100%" height={300}>
+//           <BarChart data={data}>
+//             <XAxis dataKey="period" />
+//             <YAxis />
+//             <Tooltip />
+//             <Bar dataKey="orders" fill="#60A5FA" name="Buyurtmalar" />
+//             <Bar dataKey="revenue" fill="#34D399" name="Daromad (so‘m)" />
+//           </BarChart>
+//         </ResponsiveContainer>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { db, storage } from "../../../lib/firebase";
 import {
   collection,
+  onSnapshot,
   addDoc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-  doc,
+  serverTimestamp,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  image?: string;
-  category: string;
-  rating?: number;
-  cookTime?: string;
-  popular?: boolean;
-}
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Card, CardContent } from "@/components/ui/card";
 
-const categories = [
-  "Burgers",
-  "Lavashlar",
-  "Pitsa",
-  "Salatlar",
-  "Gazaklar",
-  "Garnirlar",
-  "Ichimliklar",
-];
-
-export default function AdminPanel() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [form, setForm] = useState({
-    name: "",
-    description: "",
-    price: "",
-    image: "",
-    category: categories[0],
-    rating: "4.5",
-    cookTime: "5 daqiqa",
-    popular: false,
-  });
-  const [editId, setEditId] = useState<string | null>(null);
-
-  const productsRef = collection(db, "products");
-
-  const loadProducts = async () => {
-    const snapshot = await getDocs(productsRef);
-    const data = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Product[];
-    setProducts(data);
-  };
+export default function AdminDashboard() {
+  const [orders, setOrders] = useState([]);
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadProducts();
+    const unsub = onSnapshot(collection(db, "orders"), (snapshot) => {
+      const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
+        return {
+          ...d,
+          timestamp: d.timestamp?.toDate
+            ? d.timestamp.toDate()
+            : new Date(d.timestamp),
+        };
+      });
+      setOrders(data);
+    });
+
+    return () => unsub();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  const now = new Date();
+  const isToday = (date: Date) =>
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+  const isThisMonth = (date: Date) =>
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+  const isThisYear = (date: Date) => date.getFullYear() === now.getFullYear();
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setForm((prev) => ({ ...prev, image: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
+  const todayOrders = orders.filter((o) => isToday(o.timestamp));
+  const monthOrders = orders.filter((o) => isThisMonth(o.timestamp));
+  const yearOrders = orders.filter((o) => isThisYear(o.timestamp));
+
+  const calcRevenue = (list: any[]) =>
+    list.reduce((sum, o) => sum + (o.totalPrice || 0), 0);
+
+  const data = [
+    {
+      period: "Bugun",
+      orders: todayOrders.length,
+      revenue: calcRevenue(todayOrders),
+    },
+    {
+      period: "Shu oy",
+      orders: monthOrders.length,
+      revenue: calcRevenue(monthOrders),
+    },
+    {
+      period: "Shu yil",
+      orders: yearOrders.length,
+      revenue: calcRevenue(yearOrders),
+    },
+  ];
+
+  const handleAddProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !price || !category || !imageFile) {
+      alert("Iltimos, barcha maydonlarni to‘ldiring.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const imageRef = ref(storage, `products/${Date.now()}-${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      await addDoc(collection(db, "products"), {
+        title,
+        price: Number(price),
+        category,
+        imageUrl,
+        createdAt: serverTimestamp(),
+      });
+
+      alert("Mahsulot muvaffaqiyatli qo‘shildi!");
+      setTitle("");
+      setPrice("");
+      setCategory("");
+      setImageFile(null);
+    } catch (err) {
+      console.error("Xatolik:", err);
+      alert("Mahsulot qo‘shishda xatolik yuz berdi.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleAdd = async () => {
-    const newProduct = {
-      name: form.name,
-      description: form.description,
-      price: parseInt(form.price),
-      image: form.image,
-      category: form.category,
-      rating: parseFloat(form.rating),
-      cookTime: form.cookTime,
-      popular: form.popular,
-    };
-
-    await addDoc(productsRef, newProduct);
-    resetForm();
-    loadProducts();
-  };
-
-  const handleUpdate = async () => {
-    if (!editId) return;
-
-    await updateDoc(doc(productsRef, editId), {
-      ...form,
-      price: parseInt(form.price),
-      rating: parseFloat(form.rating),
-    });
-
-    resetForm();
-    loadProducts();
-  };
-
-  const handleEdit = (product: Product) => {
-    setEditId(product.id);
-    setForm({
-      name: product.name,
-      description: product.description,
-      price: product.price.toString(),
-      image: product.image || "",
-      category: product.category,
-      rating: product.rating?.toString() || "4.5",
-      cookTime: product.cookTime || "5 daqiqa",
-      popular: product.popular || false,
-    });
-  };
-
-  const handleDelete = async (id: string) => {
-    await deleteDoc(doc(productsRef, id));
-    loadProducts();
-  };
-
-  const resetForm = () => {
-    setEditId(null);
-    setForm({
-      name: "",
-      description: "",
-      price: "",
-      image: "",
-      category: categories[0],
-      rating: "4.5",
-      cookTime: "5 daqiqa",
-      popular: false,
-    });
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center mb-6">🛠 Admin panel - Mahsulotlar</h1>
+    <div className="p-6 space-y-8">
+      <h1 className="text-3xl font-bold text-gray-800">Admin Paneli</h1>
 
-      {/* Form */}
-      <div className="grid gap-4 bg-gray-100 p-4 rounded-xl shadow">
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          placeholder="Nomi"
-          onChange={handleChange}
-          className="p-2 border rounded"
-        />
-        <textarea
-          name="description"
-          value={form.description}
-          placeholder="Tavsifi"
-          onChange={handleChange}
-          className="p-2 border rounded"
-        />
-        <input
-          type="number"
-          name="price"
-          value={form.price}
-          placeholder="Narxi (so‘m)"
-          onChange={handleChange}
-          className="p-2 border rounded"
-        />
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="p-2 border rounded"
-        >
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          name="cookTime"
-          value={form.cookTime}
-          placeholder="Pishirish vaqti"
-          onChange={handleChange}
-          className="p-2 border rounded"
-        />
-        <input
-          type="text"
-          name="rating"
-          value={form.rating}
-          placeholder="Reyting"
-          onChange={handleChange}
-          className="p-2 border rounded"
-        />
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="popular"
-            checked={form.popular}
-            onChange={handleChange}
-          />
-          🔥 Mashhur taom
-        </label>
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
-        {form.image && (
-          <img
-            src={form.image}
-            alt="Yuklangan rasm"
-            className="w-32 h-32 object-cover border rounded"
-          />
-        )}
-
-        <div className="flex gap-2">
-          {editId ? (
-            <button
-              onClick={handleUpdate}
-              className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-            >
-              Yangilash
-            </button>
-          ) : (
-            <button
-              onClick={handleAdd}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-            >
-              Qo‘shish
-            </button>
-          )}
-          {editId && (
-            <button
-              onClick={resetForm}
-              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
-            >
-              Bekor qilish
-            </button>
-          )}
-        </div>
+      {/* Statistika */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {data.map((item) => (
+          <Card key={item.period} className="shadow-md">
+            <CardContent className="p-4">
+              <h2 className="text-xl font-semibold text-gray-700">
+                {item.period}
+              </h2>
+              <p className="text-sm text-gray-500">
+                Buyurtmalar: {item.orders}
+              </p>
+              <p className="text-sm text-gray-500">
+                Daromad: {item.revenue.toLocaleString()} so‘m
+              </p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* Mahsulot ro'yxati */}
-      <div className="space-y-3">
-        <h2 className="text-2xl font-semibold">📦 Yangi mahsulotlar</h2>
-        {products.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white p-4 rounded shadow flex justify-between items-center"
+      {/* Diagramma */}
+      <div className="bg-white p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">
+          Statistika (Buyurtma va Daromad)
+        </h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <XAxis dataKey="period" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="orders" fill="#60A5FA" name="Buyurtmalar" />
+            <Bar dataKey="revenue" fill="#34D399" name="Daromad" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Mahsulot qo‘shish formasi */}
+      <div className="bg-white p-6 rounded-lg shadow-md max-w-xl">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Mahsulot qo‘shish</h2>
+
+        <form onSubmit={handleAddProduct} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Mahsulot nomi"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+          <input
+            type="number"
+            placeholder="Narxi (so‘m)"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+          <input
+            type="text"
+            placeholder="Kategoriya"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-2 border rounded"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+            className="w-full"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
-            <div>
-              <p className="font-bold">{item.name}</p>
-              <p className="text-sm text-gray-500">{item.category} — {item.price.toLocaleString()} so‘m</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleEdit(item)}
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-              >
-                Tahrirlash
-              </button>
-              <button
-                onClick={() => handleDelete(item.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              >
-                O‘chirish
-              </button>
-            </div>
-          </div>
-        ))}
+            {loading ? "Yuklanmoqda..." : "Qo‘shish"}
+          </button>
+        </form>
       </div>
     </div>
   );
 }
-
-
-
-// hjlgj
