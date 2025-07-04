@@ -592,6 +592,15 @@ const menuItems: MenuItem[] = [
     image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop",
     rating: 4.6,
     cookTime: "12-18 min",
+  },{
+    id: 19,
+    name: "Hot - Dog kichik",
+    description: "Bu uzun bulka ichiga sosiska, souslar (ketchup, mayonez, xantal) va ba’zida pishloq yoki sabzavot solib tayyorlanadigan fast food taomidir.",
+    price: 10000,
+    category: "Hot-dog",
+    image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop",
+    rating: 4.6,
+    cookTime: "12-18 min",
   },
 ]
 
