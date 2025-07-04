@@ -11,23 +11,49 @@
 // export default function KitchenDashboard() {
 //   const [currentTime, setCurrentTime] = useState<Date | null>(null)
 //   const [mounted, setMounted] = useState(false)
-
 //   const { preparingOrders, readyOrders, loading, error, updateOrderStatus } = useFirebaseOrders()
 
 //   // Избегаем ошибки гидратации
 //   useEffect(() => {
 //     setMounted(true)
 //     setCurrentTime(new Date())
-
 //     const timer = setInterval(() => {
 //       setCurrentTime(new Date())
 //     }, 1000)
-
 //     return () => clearInterval(timer)
 //   }, [])
 
 //   const markAsReady = async (orderId: string) => {
 //     await updateOrderStatus(orderId, "ready")
+//   }
+
+//   // Format time in Uzbek
+//   const formatUzbekTime = (date: Date) => {
+//     const days = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"]
+//     const months = [
+//       "Yanvar",
+//       "Fevral",
+//       "Mart",
+//       "Aprel",
+//       "May",
+//       "Iyun",
+//       "Iyul",
+//       "Avgust",
+//       "Sentabr",
+//       "Oktabr",
+//       "Noyabr",
+//       "Dekabr",
+//     ]
+
+//     const dayName = days[date.getDay()]
+//     const day = date.getDate()
+//     const month = months[date.getMonth()]
+//     const year = date.getFullYear()
+//     const hours = date.getHours().toString().padStart(2, "0")
+//     const minutes = date.getMinutes().toString().padStart(2, "0")
+//     const seconds = date.getSeconds().toString().padStart(2, "0")
+
+//     return `${dayName}, ${day} ${month} ${year}, ${hours}:${minutes}:${seconds}`
 //   }
 
 //   if (!mounted) {
@@ -41,7 +67,7 @@
 //                   <ChefHat className="h-8 w-8 sm:h-10 sm:w-10" />
 //                   Oshxona - Boshqaruv paneli
 //                 </h1>
-//                 <p className="text-base sm:text-lg opacity-90 mt-1">Загрузка...</p>
+//                 <p className="text-base sm:text-lg opacity-90 mt-1">Yuklanmoqda...</p>
 //               </div>
 //             </div>
 //           </div>
@@ -90,7 +116,7 @@
 //                 Oshxona - Boshqaruv paneli
 //               </h1>
 //               <p className="text-base sm:text-lg opacity-90 mt-1">
-//                 {currentTime?.toLocaleTimeString("ru-RU")} • {preparingOrders.length} buyurtmalar bajarilmoqda
+//                 {currentTime && formatUzbekTime(currentTime)} • {preparingOrders.length} buyurtma bajarilmoqda
 //               </p>
 //             </div>
 //             <div className="flex gap-2 sm:gap-4">
@@ -138,7 +164,6 @@
 //             <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
 //             Buyurtmalar bajarilmoqda ({preparingOrders.length})
 //           </h2>
-
 //           {preparingOrders.length === 0 ? (
 //             <Card className="bg-gray-50">
 //               <CardContent className="p-8 text-center">
@@ -166,7 +191,7 @@
 //                         </div>
 //                         <div className="text-right">
 //                           <div className="text-sm text-gray-500">
-//                             {new Date(order.timestamp).toLocaleTimeString("ru-RU")}
+//                             {new Date(order.timestamp).toLocaleTimeString("uz-UZ")}
 //                           </div>
 //                         </div>
 //                       </div>
@@ -178,12 +203,12 @@
 //                             <span className="font-medium">
 //                               {item.name} x{item.quantity}
 //                             </span>
-//                             <span className="text-gray-600">{item.price * item.quantity}₽</span>
+//                             <span className="text-gray-600">{item.price * item.quantity} UZS</span>
 //                           </div>
 //                         ))}
 //                       </div>
 //                       <div className="flex justify-between items-center pt-3 border-t">
-//                         <span className="font-bold text-lg">Jami:{order.totalPrice}₽</span>
+//                         <span className="font-bold text-lg">Jami: {order.totalPrice} UZS</span>
 //                         <Button
 //                           size="lg"
 //                           className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
@@ -213,7 +238,7 @@
 //                   <CardContent className="p-4 text-center">
 //                     <div className="text-3xl font-bold text-green-600 mb-2">#{order.orderNumber}</div>
 //                     <p className="text-sm text-gray-600 mb-2">
-//                       {order.items.length} mahsulot(lar) • {order.totalPrice}₽
+//                       {order.items.length} mahsulot • {order.totalPrice} UZS
 //                     </p>
 //                     <Badge className="bg-green-600 text-white">
 //                       <CheckCircle className="h-3 w-3 mr-1" />
@@ -229,6 +254,9 @@
 //     </div>
 //   )
 // }
+
+
+
 
 
 
@@ -279,7 +307,9 @@ export default function KitchenDashboard() {
   }, [])
 
   const markAsReady = async (orderId: string) => {
-    await updateOrderStatus(orderId, "ready")
+    if (orderId) {
+      await updateOrderStatus(orderId, "ready")
+    }
   }
 
   // Format time in Uzbek
@@ -299,7 +329,6 @@ export default function KitchenDashboard() {
       "Noyabr",
       "Dekabr",
     ]
-
     const dayName = days[date.getDay()]
     const day = date.getDate()
     const month = months[date.getMonth()]
@@ -307,7 +336,6 @@ export default function KitchenDashboard() {
     const hours = date.getHours().toString().padStart(2, "0")
     const minutes = date.getMinutes().toString().padStart(2, "0")
     const seconds = date.getSeconds().toString().padStart(2, "0")
-
     return `${dayName}, ${day} ${month} ${year}, ${hours}:${minutes}:${seconds}`
   }
 
@@ -458,12 +486,12 @@ export default function KitchenDashboard() {
                             <span className="font-medium">
                               {item.name} x{item.quantity}
                             </span>
-                            <span className="text-gray-600">{item.price * item.quantity} UZS</span>
+                            <span className="text-gray-600">{(item.price * item.quantity).toLocaleString()} UZS</span>
                           </div>
                         ))}
                       </div>
                       <div className="flex justify-between items-center pt-3 border-t">
-                        <span className="font-bold text-lg">Jami: {order.totalPrice} UZS</span>
+                        <span className="font-bold text-lg">{order.totalPrice.toLocaleString()} UZS</span>
                         <Button
                           size="lg"
                           className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
@@ -493,7 +521,7 @@ export default function KitchenDashboard() {
                   <CardContent className="p-4 text-center">
                     <div className="text-3xl font-bold text-green-600 mb-2">#{order.orderNumber}</div>
                     <p className="text-sm text-gray-600 mb-2">
-                      {order.items.length} mahsulot • {order.totalPrice} UZS
+                      {order.items.length} mahsulot • {order.totalPrice.toLocaleString()} UZS
                     </p>
                     <Badge className="bg-green-600 text-white">
                       <CheckCircle className="h-3 w-3 mr-1" />
