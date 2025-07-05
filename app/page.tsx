@@ -610,10 +610,37 @@ const menuItems: MenuItem[] = [
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo3kjof39hTdjesh0SY9o3ifubNjjXSsp4vg&s",
     rating: 4.6,
     cookTime: "12-18 min",
+  },{
+    id: 22,
+    name: "KFC",
+    description: "Bu uzun bulka ichiga sosiska, souslar (ketchup, mayonez, xantal) va ba’zida pishloq yoki sabzavot solib tayyorlanadigan fast food taomidir.",
+    price: 30000,
+    category: "KFC",
+    image: "https://img.uniform.global/p/hCc8rgXySKWOu8aczqogdQ/6XqzVCf8QDKZEksIR2OYaw-mobile.jpg",
+    rating: 4.9,
+    cookTime: "30-35 min",
+  },{
+    id: 23,
+    name: "Kartochka Free",
+    description: "Bu uzun bulka ichiga sosiska, souslar (ketchup, mayonez, xantal) va ba’zida pishloq yoki sabzavot solib tayyorlanadigan fast food taomidir.",
+    price: 15000,
+    category: "KFC",
+    image: "https://images.ctfassets.net/n4pc9wlortyn/1ba8ra2GsoGx1OBEAsGUKM/2aed08cbe74c4844d6f6f219e3a90280/SPU_48_Jumbo_French_Fries_480x388.png",
+    rating: 4.7,
+    cookTime: "15-28 min",
+  },{
+    id: 24,
+    name: "Shourma kichik",
+    description: "Bu lavash ichiga tovuq yoki mol go‘shti, salat, pomidor, bodring, kartoshka va souslar solib o‘ralgan mazali fast food taomidir.",
+    price: 25000,
+    category: "Lavash",
+    image: "",
+    rating: 4.7,
+    cookTime: "10-15 min",
   },
 ]
 
-const categories = ["Hammasi", "Pizza", "ichimlik", "Hot-dog", "KFC", "Lavash", "Burger"]
+const categories = ["Hammasi", "Pizza", "Ichimlik", "Hot-dog", "KFC", "Lavash", "Burger"]
 
 export default function KioskMenu() {
   const [selectedCategory, setSelectedCategory] = useState("Hammasi")
