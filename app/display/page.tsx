@@ -500,7 +500,7 @@ export default function DisplayPage() {
   const [currentTime, setCurrentTime] = useState<Date | null>(null)
   const [mounted, setMounted] = useState(false)
   const [newReadyOrder, setNewReadyOrder] = useState<number | null>(null)
-  const { preparingOrders, readyOrders, loading, error } = useFirebaseOrders()
+  const { preparingOrders, readyOrders, loading, error, updateOrderStatus } = useFirebaseOrders()
 
   // Use useRef to store previous ready orders to avoid dependency issues
   const previousReadyOrdersRef = useRef<any[]>([])
@@ -530,6 +530,73 @@ export default function DisplayPage() {
     // Update the ref with current ready orders
     previousReadyOrdersRef.current = [...readyOrders]
   }, [readyOrders]) // Only depend on readyOrders
+
+  // Filter out expired orders locally (don't wait for Firebase update)
+  const filterExpiredOrders = (orders: any[]) => {
+    const now = new Date()
+    const threeMinutes = 3 * 60 * 1000
+
+    return orders.filter((order) => {
+      if (!order.timestamp) return true
+
+      const orderTime = new Date(order.timestamp)
+      const timeDiff = now.getTime() - orderTime.getTime()
+
+      // Hide orders that have been ready for 3+ minutes
+      return timeDiff < threeMinutes
+    })
+  }
+
+  // Auto-complete ready orders after 3 minutes with more frequent checks
+  useEffect(() => {
+    if (readyOrders.length === 0) return
+
+    const checkInterval = setInterval(() => {
+      const now = new Date()
+
+      readyOrders.forEach(async (order) => {
+        if (order.id && order.timestamp) {
+          const orderTime = new Date(order.timestamp)
+          const timeDiff = now.getTime() - orderTime.getTime()
+          const threeMinutes = 3 * 60 * 1000
+
+          // If order has been ready for exactly 3 minutes, mark as completed
+          if (timeDiff >= threeMinutes) {
+            try {
+              console.log(`Auto-completing order #${order.orderNumber} after 3 minutes`)
+              await updateOrderStatus(order.id, "completed")
+            } catch (error) {
+              console.error("Error auto-completing order:", error)
+            }
+          }
+        }
+      })
+    }, 1000) // Check every second for immediate response
+
+    return () => clearInterval(checkInterval)
+  }, [readyOrders, updateOrderStatus])
+
+  // Calculate remaining time for ready orders and add visual warnings
+  const getRemainingTime = (orderTimestamp: string) => {
+    const now = new Date()
+    const orderTime = new Date(orderTimestamp)
+    const timeDiff = now.getTime() - orderTime.getTime()
+    const threeMinutes = 3 * 60 * 1000
+    const remaining = threeMinutes - timeDiff
+
+    if (remaining <= 0) return { time: "Исчезает...", isExpiring: true, isWarning: false }
+
+    const minutes = Math.floor(remaining / 60000)
+    const seconds = Math.floor((remaining % 60000) / 1000)
+    const timeString = `${minutes}:${seconds.toString().padStart(2, "0")}`
+
+    // Warning when less than 30 seconds left
+    const isWarning = remaining <= 30000
+    // Expiring when less than 10 seconds left
+    const isExpiring = remaining <= 10000
+
+    return { time: timeString, isExpiring, isWarning }
+  }
 
   if (!mounted) {
     return (
@@ -569,7 +636,8 @@ export default function DisplayPage() {
 
   // Sort orders by order number
   const sortedPreparingOrders = [...preparingOrders].sort((a, b) => a.orderNumber - b.orderNumber)
-  const sortedReadyOrders = [...readyOrders].sort((a, b) => a.orderNumber - b.orderNumber)
+  const filteredReadyOrders = filterExpiredOrders(readyOrders)
+  const sortedReadyOrders = [...filteredReadyOrders].sort((a, b) => a.orderNumber - b.orderNumber)
 
   // Format time in Uzbek
   const formatUzbekTime = (date: Date) => {
@@ -694,31 +762,79 @@ export default function DisplayPage() {
           </div>
           <div className="space-y-4">
             {sortedReadyOrders.length > 0 ? (
-              sortedReadyOrders.map((order) => (
-                <div
-                  key={order.id}
-                  className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-6 hover:scale-105 transition-transform duration-300 animate-pulse"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-green-500 rounded-full p-3">
-                        <CheckCircle className="h-6 w-6 text-white" />
+              sortedReadyOrders.map((order) => {
+                const timeInfo = getRemainingTime(order.timestamp)
+                return (
+                  <div
+                    key={order.id}
+                    className={`backdrop-blur-sm border rounded-xl p-6 hover:scale-105 transition-all duration-300 ${
+                      timeInfo.isExpiring
+                        ? "bg-gradient-to-r from-red-500/30 to-orange-500/30 border-red-400/50 animate-pulse"
+                        : timeInfo.isWarning
+                          ? "bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-400/40"
+                          : "bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-400/30 animate-pulse"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`rounded-full p-3 ${
+                            timeInfo.isExpiring ? "bg-red-500" : timeInfo.isWarning ? "bg-yellow-500" : "bg-green-500"
+                          }`}
+                        >
+                          <CheckCircle className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-3xl font-black text-white mb-1">Buyurtma #{order.orderNumber}</div>
+                          <div
+                            className={`text-sm font-medium ${
+                              timeInfo.isExpiring
+                                ? "text-red-300"
+                                : timeInfo.isWarning
+                                  ? "text-yellow-300"
+                                  : "text-green-300"
+                            }`}
+                          >
+                            {timeInfo.isExpiring ? "Vaqt tugadi!" : "Olib ketishga tayyor"}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="text-3xl font-black text-white mb-1">Buyurtma #{order.orderNumber}</div>
-                        <div className="text-green-300 text-sm font-medium">Olib ketishga tayyor</div>
+                      <div className="flex items-center gap-3">
+                        <div className="text-center">
+                          <Badge
+                            className={`text-white text-lg font-bold px-4 py-2 border-0 ${
+                              timeInfo.isExpiring ? "bg-red-500" : timeInfo.isWarning ? "bg-yellow-500" : "bg-green-500"
+                            }`}
+                          >
+                            <Sparkles className="h-4 w-4 mr-2" />
+                            {timeInfo.isExpiring ? "TUGADI!" : "TAYYOR!"}
+                          </Badge>
+                          <div
+                            className={`text-xs mt-1 font-mono font-bold ${
+                              timeInfo.isExpiring
+                                ? "text-red-300"
+                                : timeInfo.isWarning
+                                  ? "text-yellow-300"
+                                  : "text-green-300"
+                            }`}
+                          >
+                            {timeInfo.time}
+                          </div>
+                        </div>
+                        <div
+                          className={`w-4 h-4 rounded-full ${
+                            timeInfo.isExpiring
+                              ? "bg-red-400 animate-ping"
+                              : timeInfo.isWarning
+                                ? "bg-yellow-400 animate-pulse"
+                                : "bg-green-400 animate-ping"
+                          }`}
+                        ></div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Badge className="bg-green-500 text-white text-lg font-bold px-4 py-2 border-0">
-                        <Sparkles className="h-4 w-4 mr-2" />
-                        TAYYOR!
-                      </Badge>
-                      <div className="w-4 h-4 bg-green-400 rounded-full animate-ping"></div>
                     </div>
                   </div>
-                </div>
-              ))
+                )
+              })
             ) : (
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <CheckCircle className="h-16 w-16 text-green-400/50 mb-4" />
