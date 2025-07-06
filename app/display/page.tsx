@@ -437,7 +437,7 @@ export default function DisplayPage() {
     const now = new Date()
     const orderTime = new Date(timestamp)
     const diff = now.getTime() - orderTime.getTime()
-    const oneMinute = 120 * 1000
+    const oneMinute = 1800 * 1000
     const remaining = oneMinute - diff
 
     if (remaining <= 0) return { time: "Исчезает...", isExpiring: true, isWarning: false }
