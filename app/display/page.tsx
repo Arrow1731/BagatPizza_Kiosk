@@ -424,7 +424,7 @@ export default function DisplayPage() {
 
   const filterExpiredOrders = (orders: any[]) => {
     const now = new Date()
-    const oneMinute = 10 * 60 * 1000
+    const oneMinute = 40 * 60 * 1000
     return orders.filter((order) => {
       if (!order.timestamp) return true
       const orderTime = new Date(order.timestamp)
@@ -437,7 +437,7 @@ export default function DisplayPage() {
     const now = new Date()
     const orderTime = new Date(timestamp)
     const diff = now.getTime() - orderTime.getTime()
-    const oneMinute = 40 * 1000
+    const oneMinute = 120 * 1000
     const remaining = oneMinute - diff
 
     if (remaining <= 0) return { time: "Исчезает...", isExpiring: true, isWarning: false }
