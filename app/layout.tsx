@@ -6,9 +6,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
 export const metadata: Metadata = {
-  title: "Киоск самообслуживания - Быстро Вкусно",
-  description: "Система заказа еды через киоск самообслуживания",
-    generator: 'v0.dev'
+  title: "Bog'ot Pizza N1",
+
 }
 
 export default function RootLayout({
