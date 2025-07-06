@@ -534,7 +534,7 @@ export default function DisplayPage() {
   // Filter out expired orders locally (don't wait for Firebase update)
   const filterExpiredOrders = (orders: any[]) => {
     const now = new Date()
-    const threeMinutes = 3 * 60 * 1000
+    const threeMinutes = 1 * 60 * 1000
 
     return orders.filter((order) => {
       if (!order.timestamp) return true
@@ -558,7 +558,7 @@ export default function DisplayPage() {
         if (order.id && order.timestamp) {
           const orderTime = new Date(order.timestamp)
           const timeDiff = now.getTime() - orderTime.getTime()
-          const threeMinutes = 3 * 60 * 1000
+          const threeMinutes = 1 * 60 * 1000
 
           // If order has been ready for exactly 3 minutes, mark as completed
           if (timeDiff >= threeMinutes) {
@@ -581,7 +581,7 @@ export default function DisplayPage() {
     const now = new Date()
     const orderTime = new Date(orderTimestamp)
     const timeDiff = now.getTime() - orderTime.getTime()
-    const threeMinutes = 3 * 60 * 1000
+    const threeMinutes = 1 * 60 * 1000
     const remaining = threeMinutes - timeDiff
 
     if (remaining <= 0) return { time: "Исчезает...", isExpiring: true, isWarning: false }
@@ -734,7 +734,7 @@ export default function DisplayPage() {
                         <Clock className="h-4 w-4 mr-2" />
                         Jarayonda
                       </Badge>
-                      <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
+                      <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -769,17 +769,17 @@ export default function DisplayPage() {
                     key={order.id}
                     className={`backdrop-blur-sm border rounded-xl p-6 hover:scale-105 transition-all duration-300 ${
                       timeInfo.isExpiring
-                        ? "bg-gradient-to-r from-red-500/30 to-orange-500/30 border-red-400/50 animate-pulse"
+                        ? "bg-gradient-to-r from-green-500/30 to-green-500/30 border-green-400/50"
                         : timeInfo.isWarning
-                          ? "bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-400/40"
-                          : "bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-400/30 animate-pulse"
+                          ? "bg-gradient-to-r from-green-500/20 to-green-500/20 border-green-400/40"
+                          : "bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-400/30"
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div
                           className={`rounded-full p-3 ${
-                            timeInfo.isExpiring ? "bg-red-500" : timeInfo.isWarning ? "bg-yellow-500" : "bg-green-500"
+                            timeInfo.isExpiring ? "bg-green-500" : timeInfo.isWarning ? "bg-green-500" : "bg-green-500"
                           }`}
                         >
                           <CheckCircle className="h-6 w-6 text-white" />
@@ -789,9 +789,9 @@ export default function DisplayPage() {
                           <div
                             className={`text-sm font-medium ${
                               timeInfo.isExpiring
-                                ? "text-red-300"
+                                ? "text-green-300"
                                 : timeInfo.isWarning
-                                  ? "text-yellow-300"
+                                  ? "text-green-300"
                                   : "text-green-300"
                             }`}
                           >
@@ -803,7 +803,7 @@ export default function DisplayPage() {
                         <div className="text-center">
                           <Badge
                             className={`text-white text-lg font-bold px-4 py-2 border-0 ${
-                              timeInfo.isExpiring ? "bg-red-500" : timeInfo.isWarning ? "bg-yellow-500" : "bg-green-500"
+                              timeInfo.isExpiring ? "bg-green-500" : timeInfo.isWarning ? "bg-green-500" : "bg-green-500"
                             }`}
                           >
                             <Sparkles className="h-4 w-4 mr-2" />
@@ -812,9 +812,9 @@ export default function DisplayPage() {
                           <div
                             className={`text-xs mt-1 font-mono font-bold ${
                               timeInfo.isExpiring
-                                ? "text-red-300"
+                                ? "text-green-300"
                                 : timeInfo.isWarning
-                                  ? "text-yellow-300"
+                                  ? "text-green-300"
                                   : "text-green-300"
                             }`}
                           >
@@ -824,9 +824,9 @@ export default function DisplayPage() {
                         <div
                           className={`w-4 h-4 rounded-full ${
                             timeInfo.isExpiring
-                              ? "bg-red-400 animate-ping"
+                              ? "bg-green-400 animate-ping"
                               : timeInfo.isWarning
-                                ? "bg-yellow-400 animate-pulse"
+                                ? "bg-green-400 animate-pulse"
                                 : "bg-green-400 animate-ping"
                           }`}
                         ></div>
