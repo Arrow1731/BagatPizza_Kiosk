@@ -313,7 +313,7 @@ export default function KitchenDashboard() {
       // Создаем содержимое чека
       const receiptContent = `
         ================================
-              BOG'OT PIZZA
+                 BOG'OT PIZZA N1
         ================================
         
         Buyurtma #${order.orderNumber}
@@ -340,9 +340,10 @@ export default function KitchenDashboard() {
         JAMI: ${order.totalPrice.toLocaleString()} UZS
         --------------------------------
         
-        Rahmat! Yaxshi ishtaha!
+        Rahmat! Yoqimli ishtaha!
         
         ================================
+               Created by CodeVibe
       `
 
       // Попытка печати через различные методы
