@@ -476,11 +476,11 @@ export default function CartPage() {
       case "delivery":
         return "Yetkazib berish"
       case "takeaway":
-        return "Saboj"
+        return "Saboy"
       case "dine-in":
         return "Joyida iste'mol"
       default:
-        return "Saboj"
+        return "Saboy"
     }
   }
 
@@ -659,7 +659,7 @@ export default function CartPage() {
                       onClick={() => setDeliveryMethod("takeaway")}
                     >
                       <ShoppingBag className="h-5 w-5" />
-                      <span>Saboj</span>
+                      <span>Saboy</span>
                     </Button>
                     <Button
                       variant={deliveryMethod === "dine-in" ? "default" : "outline"}
