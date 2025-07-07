@@ -253,29 +253,29 @@ export default function DisplayPage() {
       {/* Two-Column Layout */}
       <div className="relative z-10 h-[calc(100vh-180px)] flex">
         {/* LEFT SIDE - PREPARING ORDERS (БЕЗ ТАЙМЕРА) */}
-        <div className="w-1/2 border-r border-white/10 p-8 overflow-y-auto">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <Clock className="h-10 w-10 text-orange-400" />
-              <h2 className="text-2xl sm:text-2xl lg:text-3xl font-medium text-orange-400">
+        <div className="w-1/2 border-r border-white/10 p-10 overflow-y-3">
+          <div className="text-center mb-3">
+            <div className="flex items-center justify-center gap-4 mb-2">
+              <Clock className="h-5 w-5 text-orange-400" />
+              <h2 className="text-2xl sm:text-2xl lg:text 2xl font-medium text-orange-400">
                 TAYYORLANMOQDA
               </h2>
             </div>
-            <p className="text-xl text-orange-300 font-[10px]">
+            <p className="text-xl text-orange-300 font-[12px]">
               {sortedPreparingOrders.length} ta buyurtma tayyorlanmoqda
             </p>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {sortedPreparingOrders.length > 0 ? (
               sortedPreparingOrders.map((order) => (
                 <div
                   key={order.id}
                   className="bg-gradient-to-r from-orange-500/20 to-yellow-500/20 backdrop-blur-sm border border-orange-400/30 rounded-xl p-6 hover:scale-105 transition-transform duration-300"
                 >
-                  <div className="flex items-center justify-between h-6">
+                  <div className="flex items-center justify-between h-4">
                     <div className="flex items-center gap-4">
-                      <div className="bg-orange-500 rounded-full p-3">
-                        <ChefHat className="h-4 w-4 text-white" />
+                      <div className="bg-orange-500 rounded-full p-2">
+                        <ChefHat className="h-3 w-3 text-white" />
                       </div>
                       <div>
                         <div className="text-xl font-medium text-white mb-1">Buyurtma #{order.orderNumber}</div>
@@ -304,16 +304,16 @@ export default function DisplayPage() {
 
         {/* RIGHT SIDE - READY ORDERS (С ТАЙМЕРОМ НА 1 МИНУТУ) */}
         <div className="w-1/2 p-8 overflow-y-auto">
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="text-center mb-3">
+            <div className="flex items-center justify-center gap-4 mb-2">
               <CheckCircle className="h-10 w-10 text-green-400" />
-              <h2 className="text-2xl sm:text-2xl lg:text-3xl font-medium text-emerald-400">
+              <h2 className="text-xl sm:text-xl lg:text-3xl font-medium text-emerald-400">
                 TAYYOR
               </h2>
             </div>
             <p className="text-xl text-green-300 font-medium">{sortedReadyOrders.length} ta buyurtma tayyor</p>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-20">
             {sortedReadyOrders.length > 0 ? (
               sortedReadyOrders.map((order) => {
                 const timeInfo = order.id
@@ -330,10 +330,10 @@ export default function DisplayPage() {
                           : "bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-400/30"
                     }`}
                   >
-                    <div className="flex items-center justify-between h-6">
+                    <div className="flex items-center justify-between h-4">
                       <div className="flex items-center gap-4">
                         <div
-                          className={`rounded-full p-3 ${
+                          className={`rounded-full p-2 ${
                             timeInfo.isExpiring ? "bg-green-500" : timeInfo.isWarning ? "bg-green-500" : "bg-green-500"
                           }`}
                         >
@@ -357,7 +357,7 @@ export default function DisplayPage() {
                       <div className="flex items-center gap-3">
                         <div className="text-center">
                           <Badge
-                            className={`text-white text-sm font-bold px-4 py-2 border-0 ${
+                            className={`text-white text-sm font-bold px-4 py-1 border-0 ${
                               timeInfo.isExpiring ? "bg-grren-500" : timeInfo.isWarning ? "bg-green-500" : "bg-green-500"
                             }`}
                           >
@@ -365,7 +365,7 @@ export default function DisplayPage() {
                             {timeInfo.isExpiring ? "TUGADI!" : "TAYYOR!"}
                           </Badge>
                           <div
-                            className={`text-xs mt-1 font-mono font-medium ${
+                            className={`text-xs mt-2 font-mono font-medium ${
                               timeInfo.isExpiring
                                 ? "text-freen-300"
                                 : timeInfo.isWarning
