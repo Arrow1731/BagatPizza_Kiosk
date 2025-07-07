@@ -278,16 +278,16 @@ export default function DisplayPage() {
                         <ChefHat className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-3xl font-black text-white mb-1">Buyurtma #{order.orderNumber}</div>
+                        <div className="text-2xl font-bold text-white mb-1">Buyurtma #{order.orderNumber}</div>
                         <div className="text-orange-300 text-sm font-medium">Tayyorlanmoqda</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Badge className="bg-orange-500 text-white text-lg font-bold px-4 py-2 border-0">
-                        <Clock className="h-4 w-4 mr-2" />
+                      <Badge className="bg-orange-500 text-white text-sm font-semibold px-3 py-1 border-0">
+                        <Clock className="h-3 w-3 mr-2" />
                         Jarayonda
                       </Badge>
-                      <div className="w-4 h-4 bg-orange-400 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
                     </div>
                   </div>
                 </div>
@@ -340,7 +340,7 @@ export default function DisplayPage() {
                           <CheckCircle className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <div className="text-3xl font-black text-white mb-1">Buyurtma #{order.orderNumber}</div>
+                          <div className="text-2xl font-bold text-white mb-1">Buyurtma #{order.orderNumber}</div>
                           <div
                             className={`text-sm font-medium ${
                               timeInfo.isExpiring
@@ -361,11 +361,11 @@ export default function DisplayPage() {
                               timeInfo.isExpiring ? "bg-grren-500" : timeInfo.isWarning ? "bg-green-500" : "bg-green-500"
                             }`}
                           >
-                            <Sparkles className="h-4 w-4 mr-2" />
+                            <Sparkles className="h-2 w-2 mr-2" />
                             {timeInfo.isExpiring ? "TUGADI!" : "TAYYOR!"}
                           </Badge>
                           <div
-                            className={`text-xs mt-1 font-mono font-bold ${
+                            className={`text-xs mt-1 font-mono font-semibold ${
                               timeInfo.isExpiring
                                 ? "text-freen-300"
                                 : timeInfo.isWarning
