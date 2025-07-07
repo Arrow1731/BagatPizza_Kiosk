@@ -513,7 +513,7 @@ export default function KioskMenu() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-300 to-orange-200 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold  text-yellow-300 text-transparent">
                 Bog'ot Pizza N1
               </h1>
               {/* <p className="text-lg sm:text-xl opacity-90 mt-1">O'z-o'ziga xizmat ko'rsatish kioskasi</p> */}

@@ -238,7 +238,7 @@ export default function DisplayPage() {
       {/* Header */}
       <header className="relative z-10 text-center py-6 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-yellow-400 text-transparent mb-4">
             Bog'ot Pizza N1
           </h1>
           {currentTime && (
@@ -257,7 +257,7 @@ export default function DisplayPage() {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-4 mb-4">
               <Clock className="h-10 w-10 text-orange-400" />
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-orange-400">
                 TAYYORLANMOQDA
               </h2>
             </div>
@@ -307,7 +307,7 @@ export default function DisplayPage() {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-4 mb-4">
               <CheckCircle className="h-10 w-10 text-green-400" />
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent text-emerald-400">
                 TAYYOR
               </h2>
             </div>
