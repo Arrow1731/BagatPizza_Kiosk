@@ -32,11 +32,11 @@
 //         ================================
 //                  BOG'OT PIZZA N1
 //         ================================
-        
+
 //         Buyurtma #${order.orderNumber}
 //         Sana: ${new Date(order.timestamp).toLocaleDateString("uz-UZ")}
 //         Vaqt: ${new Date(order.timestamp).toLocaleTimeString("uz-UZ")}
-        
+
 //         --------------------------------
 //         MAHSULOTLAR:
 //         --------------------------------
@@ -46,18 +46,18 @@
 //               `${item.name} x${item.quantity}           ${(item.price * item.quantity).toLocaleString()} UZS`,
 //           )
 //           .join("\n        ")}
-        
+
 //         --------------------------------
-        
+
 //         Olish usuli: ${order.deliveryMethod === "delivery" ? "Yetkazib berish" : "O'zim olaman"}
 //         To'lov turi: ${order.paymentMethod === "card" ? "Plastik karta" : "Naxt pul"}
-        
+
 //         --------------------------------
 //         JAMI: ${order.totalPrice.toLocaleString()} UZS
 //         --------------------------------
-        
+
 //         Xaridingiz uchun Rahmat! Yoqimli ishtaha!
-        
+
 //         ================================
 //                Created by CodeVibe
 //       `
@@ -464,11 +464,11 @@ export default function KitchenDashboard() {
           case "delivery":
             return "Yetkazib berish"
           case "takeaway":
-            return "Saboj"
+            return "Saboy"
           case "dine-in":
             return "Joyida iste'mol"
           default:
-            return "Saboj"
+            return "Saboy"
         }
       }
 
@@ -477,11 +477,11 @@ export default function KitchenDashboard() {
         ================================
                  BOG'OT PIZZA N1
         ================================
-        
+
         Buyurtma #${order.orderNumber}
         Sana: ${new Date(order.timestamp).toLocaleDateString("uz-UZ")}
         Vaqt: ${new Date(order.timestamp).toLocaleTimeString("uz-UZ")}
-        
+
         --------------------------------
         MAHSULOTLAR:
         --------------------------------
@@ -491,18 +491,18 @@ export default function KitchenDashboard() {
               `${item.name} x${item.quantity}           ${(item.price * item.quantity).toLocaleString()} UZS`,
           )
           .join("\n        ")}
-        
+
         --------------------------------
-        
+
         Olish usuli: ${getDeliveryMethodText(order.deliveryMethod)}
         To'lov turi: ${order.paymentMethod === "card" ? "Plastik karta" : "Naxt pul"}
-        
+
         --------------------------------
         JAMI: ${order.totalPrice.toLocaleString()} UZS
         --------------------------------
-        
+
         Rahmat! Yoqimli ishtaha!
-        
+
         ================================
                Created by CodeVibe
       `
@@ -597,11 +597,11 @@ export default function KitchenDashboard() {
       case "delivery":
         return "Yetkazib berish"
       case "takeaway":
-        return "Saboj"
+        return "Saboy"
       case "dine-in":
         return "Joyida iste'mol"
       default:
-        return "Saboj"
+        return "Saboy"
     }
   }
 

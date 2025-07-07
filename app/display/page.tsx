@@ -251,9 +251,9 @@ export default function DisplayPage() {
       </header>
 
       {/* Two-Column Layout */}
-      <div className="relative z-10 h-[calc(100vh-180px)] flex">
+      <div className="relative  z-10 h-[calc(100vh-180px)] flex">
         {/* LEFT SIDE - PREPARING ORDERS (БЕЗ ТАЙМЕРА) */}
-        <div className="w-1/2 border-r border-white/10 p-8 overflow-y-auto">
+        <div className="w-1/2 border-r border-white/10 p-5 overflow-y-auto">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-4 mb-4">
               <Clock className="h-10 w-10 text-orange-400" />
