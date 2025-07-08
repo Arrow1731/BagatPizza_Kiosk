@@ -538,7 +538,7 @@ export default function DisplayPage() {
           if (readyTimestamp) {
             const orderTime = new Date(readyTimestamp)
             const timeDiff = now.getTime() - orderTime.getTime()
-            const oneMinute = 1 * 60 * 1000 // 1 минута
+            const oneMinute = 3 * 60 * 1000 // 1 минута
 
             // If order has been ready for 1 minute, mark as completed
             if (timeDiff >= oneMinute) {
