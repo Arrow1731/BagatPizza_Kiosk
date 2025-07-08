@@ -9,7 +9,7 @@ export default function AdminPage() {
   const router = useRouter();
 
   const handleLogin = () => {
-    if (username === "admin" && password === "1234") {
+    if (username === "adminbagatpizzan1" && password === "bagatpizzan1admin") {
       router.push("/admin/dashboard");
     } else {
       alert("Noto‘g‘ri login yoki parol");

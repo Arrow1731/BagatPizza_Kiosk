@@ -187,11 +187,11 @@ export default function OrderConfirmation() {
         ================================
                  BOG'OT PIZZA N1
         ================================
-        
+
         Buyurtma #${orderData.orderNumber}
         Sana: ${new Date(orderData.timestamp).toLocaleDateString("uz-UZ")}
         Vaqt: ${new Date(orderData.timestamp).toLocaleTimeString("uz-UZ")}
-        
+
         --------------------------------
         MAHSULOTLAR:
         --------------------------------
@@ -201,18 +201,24 @@ export default function OrderConfirmation() {
               `${item.name} x${item.quantity}           ${(item.price * item.quantity).toLocaleString()} UZS`,
           )
           .join("\n        ")}
-        
+
         --------------------------------
-        
+
         Olish usuli: ${getDeliveryMethodText(orderData.deliveryMethod)}
         To'lov turi: ${orderData.paymentMethod === "card" ? "Plastik karta" : "Naxt pul"}
-        
+
         --------------------------------
         JAMI: ${orderData.totalPrice.toLocaleString()} UZS
         --------------------------------
-        
-        Rahmat! Yoqimli ishtaha!
-        
+
+        Xaridingiz Rahmat! Yoqimli ishtaha!
+
+        TEL:
+         +998 95 445-50-50
+         +998 95 174-00-85
+        Instagram:
+          pizza_1_bagat
+
         ================================
                Created by CodeVibe
       `
