@@ -590,13 +590,13 @@ export default function AdminDashboard() {
   const getDeliveryMethodName = (method: string) => {
     switch (method) {
       case "takeaway":
-        return "Saboj"
+        return "Saboy"
       case "dine-in":
         return "Joyida iste'mol"
       case "delivery":
         return "Yetkazib berish"
       default:
-        return "Saboj"
+        return "Saboy"
     }
   }
 
