@@ -344,7 +344,7 @@ export default function OrderConfirmation() {
                   ) : (
                     <>
                       <Printer className="mr-2 h-5 w-5" />
-                      Chekni qayta chiqarish
+                      Chekni chiqarish
                     </>
                   )}
                 </Button>
